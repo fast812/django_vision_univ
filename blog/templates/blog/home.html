@@ -1,0 +1,145 @@
+{% extends "blog/base.html" %}
+{% block title %}Protocol812 | 나만의 블로그{% endblock %}
+{% block content %}
+
+<div class="mb-4">
+  <div class="d-flex justify-content-between align-items-end">
+    <div>
+      <h3 class="mb-1">Protocol812</h3>
+      <div class="text-muted">최근 기록과 노트를 한눈에</div>
+    </div>
+
+    <div class="d-flex gap-2">
+      <a class="btn btn-outline-dark btn-sm" href="/admin/">
+        Admin에서 글쓰기
+      </a>
+      <a class="btn btn-dark btn-sm" href="{% url 'note_create' %}">
+        + 새 노트
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ 상단 통계 카드 -->
+<div class="row g-3 mb-4">
+  <div class="col-md-6">
+    <div class="card p-3">
+      <div class="text-muted small">블로그 글</div>
+      <div class="fs-3 fw-bold">{{ post_count }}</div>
+      <a class="text-decoration-none" href="{% url 'post_list' %}">글 목록 보기 →</a>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card p-3">
+      <div class="text-muted small">공부 노트</div>
+      <div class="fs-3 fw-bold">{{ note_count }}</div>
+      <a class="text-decoration-none" href="{% url 'note_list' %}">노트 목록 보기 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <!-- ✅ 최근 블로그 -->
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h5 class="mb-0">최근 블로그</h5>
+          <a class="text-decoration-none small" href="{% url 'post_list' %}">전체보기</a>
+        </div>
+
+        {% if latest_posts %}
+          <div class="list-group list-group-flush">
+            {% for p in latest_posts %}
+              <div class="list-group-item px-0">
+                <div class="fw-semibold">{{ p.title }}</div>
+                <div class="text-muted small">{{ p.created_at|date:"Y-m-d H:i" }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-muted">아직 글이 없어요. Admin에서 글을 작성해보자!</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ 최근 노트 -->
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h5 class="mb-0">최근 노트</h5>
+          <a class="text-decoration-none small" href="{% url 'note_list' %}">전체보기</a>
+        </div>
+
+        {% if latest_notes %}
+          <div class="list-group list-group-flush">
+            {% for n in latest_notes %}
+              <a class="list-group-item px-0 text-decoration-none" href="{% url 'note_detail' n.pk %}">
+                <div class="fw-semibold text-dark">{{ n.title }}</div>
+                {% if n.course %}<div class="text-muted small">과목/주제: {{ n.course }}</div>{% endif %}
+                <div class="text-muted small">{{ n.created_at|date:"Y-m-d H:i" }}</div>
+              </a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-muted">아직 노트가 없어요. 첫 노트를 작성해보자!</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ 안내 카드 -->
+  <div class="col-12">
+    <div class="card p-3">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div>
+          <div class="fw-semibold">이 블로그는 “기록 + 정리” 공간</div>
+          <div class="text-muted small">블로그는 글로 정리, Notes는 공부내용을 빠르게 축적</div>
+        </div>
+        <div class="d-flex gap-2">
+          <a class="btn btn-outline-dark btn-sm" href="{% url 'about' %}">About</a>
+          <a class="btn btn-outline-dark btn-sm" href="{% url 'contact' %}">Contact</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-3">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">🔥 이번 주 추천 (Kaggle / ML 글)</h5>
+      <span class="text-muted small">자동 업데이트</span>
+    </div>
+    <hr>
+
+    {% if recommended %}
+      <div class="list-group list-group-flush">
+        {% for e in recommended %}
+          <a class="list-group-item list-group-item-action"
+             href="{{ e.url }}" target="_blank" rel="noopener">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <div class="fw-semibold">{{ e.title }}</div>
+                <div class="text-muted small">
+                  {{ e.source.name }}
+                  {% if e.published_at %} · {{ e.published_at|date:"Y-m-d" }}{% endif %}
+                </div>
+              </div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="text-muted">
+        아직 가져온 추천 글이 없어요. 아래 명령으로 먼저 업데이트해 주세요.
+        <div class="mt-2"><code>python manage.py fetch_feeds</code></div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+
+{% endblock %}

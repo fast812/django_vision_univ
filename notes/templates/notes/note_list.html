@@ -1,0 +1,33 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h3 class="mb-0">공부 정리 노트</h3>
+    <div class="text-muted small">대학교에서 공부한 내용을 정리해두는 공간</div>
+  </div>
+  <a class="btn btn-dark" href="{% url 'note_create' %}">+ 새 노트</a>
+</div>
+
+{% if notes %}
+  <div class="list-group">
+    {% for n in notes %}
+      <a class="list-group-item list-group-item-action" href="{% url 'note_detail' n.pk %}">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="fw-bold">{{ n.title }}</div>
+          <div class="text-muted small">{{ n.created_at|date:"Y-m-d H:i" }}</div>
+        </div>
+        {% if n.course %}
+          <div class="text-muted small">과목/주제: {{ n.course }}</div>
+        {% endif %}
+        <div class="text-muted small">{{ n.content|truncatechars:80 }}</div>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-secondary">
+    아직 노트가 없어요. <a href="{% url 'note_create' %}" class="alert-link">첫 노트 작성하기</a>
+  </div>
+{% endif %}
+
+{% endblock %}

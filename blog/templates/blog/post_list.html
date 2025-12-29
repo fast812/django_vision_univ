@@ -1,0 +1,18 @@
+{% extends "blog/base.html" %}
+{% block title %}글 목록 - 나만의 블로그{% endblock %}
+
+{% block content %}
+<h1class="h3 mb-3">글 목록</h1>
+
+{% for post in posts %}
+<divclass="card mb-3 shadow-sm">
+<divclass="card-body">
+<h2class="h5">{{ post.title }}</h2>
+<pclass="text-muted small mb-2">{{ post.created_at }}</p>
+<pclass="mb-0">{{ post.content|linebreaks }}</p>
+</div>
+</div>
+{% empty %}
+<divclass="alert alert-info">아직 글이 없어요. /admin에서 글을 작성해보자!</div>
+{% endfor %}
+{% endblock %}

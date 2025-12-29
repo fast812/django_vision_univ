@@ -1,0 +1,21 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+<div class="mb-3">
+  <a href="{% url 'note_detail' object.pk %}" class="text-decoration-none">&larr; 돌아가기</a>
+</div>
+
+<div class="card border-danger">
+  <div class="card-body">
+    <h4 class="text-danger">삭제 확인</h4>
+    <p class="mb-3">정말로 <b>{{ object.title }}</b> 노트를 삭제할까요? (되돌릴 수 없음)</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button class="btn btn-danger" type="submit">삭제</button>
+      <a class="btn btn-outline-secondary" href="{% url 'note_detail' object.pk %}">취소</a>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

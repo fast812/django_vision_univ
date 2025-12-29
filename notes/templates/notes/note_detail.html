@@ -1,0 +1,70 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+<div class="mb-3 d-flex justify-content-between align-items-center">
+  <a href="{% url 'note_list' %}" class="text-decoration-none">&larr; 목록으로</a>
+
+  <!-- ✅ AI 요약 버튼 (POST) -->
+  <form method="post" action="{% url 'note_ai_summarize' note.pk %}" class="m-0">
+    {% csrf_token %}
+    <button class="btn btn-outline-dark btn-sm" type="submit">
+      AI 요약 만들기
+    </button>
+  </form>
+</div>
+
+<!-- ✅ (선택) messages가 base.html에 없다면 여기서라도 표시 -->
+{% if messages %}
+  <div class="mb-3">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} mb-2" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="card">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-start">
+      <div>
+        <h3 class="mb-1">{{ note.title }}</h3>
+        {% if note.course %}
+          <div class="text-muted">과목/주제: {{ note.course }}</div>
+        {% endif %}
+        <div class="text-muted small">
+          작성: {{ note.created_at|date:"Y-m-d H:i" }} /
+          수정: {{ note.updated_at|date:"Y-m-d H:i" }}
+        </div>
+      </div>
+
+      <div class="d-flex gap-2">
+        <a class="btn btn-outline-dark btn-sm" href="{% url 'note_update' note.pk %}">수정</a>
+        <a class="btn btn-danger btn-sm" href="{% url 'note_delete' note.pk %}">삭제</a>
+      </div>
+    </div>
+
+    <hr>
+    <div style="white-space: pre-wrap;">{{ note.content }}</div>
+  </div>
+</div>
+
+<!-- ✅ AI 요약 결과 표시 -->
+{% if note.ai_summary %}
+  <div class="card mt-3">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">AI 요약</h5>
+        <span class="text-muted small">저장됨</span>
+      </div>
+      <hr>
+      <div style="white-space: pre-wrap;">{{ note.ai_summary }}</div>
+    </div>
+  </div>
+{% else %}
+  <div class="text-muted small mt-3">
+    아직 AI 요약이 없어요. 위의 <b>AI 요약 만들기</b> 버튼을 눌러 생성해보세요.
+  </div>
+{% endif %}
+
+{% endblock %}

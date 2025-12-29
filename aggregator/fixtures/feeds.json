@@ -1,0 +1,32 @@
+[
+  {
+    "model": "aggregator.feedsource",
+    "pk": 1,
+    "fields": {
+      "name": "Kaggle 공식 블로그 (Medium)",
+      "site_url": "https://medium.com/kaggle-blog",
+      "feed_url": "https://medium.com/feed/kaggle-blog",
+      "is_active": true
+    }
+  },
+  {
+    "model": "aggregator.feedsource",
+    "pk": 2,
+    "fields": {
+      "name": "Abhishek Thakur (Medium)",
+      "site_url": "https://medium.com/@abhi1thakur",
+      "feed_url": "https://medium.com/feed/@abhi1thakur",
+      "is_active": true
+    }
+  },
+  {
+    "model": "aggregator.feedsource",
+    "pk": 3,
+    "fields": {
+      "name": "Kaggle 관련 글 (원하는 Medium 계정으로 교체 가능)",
+      "site_url": "https://medium.com/tag/kaggle",
+      "feed_url": "https://medium.com/feed/tag/kaggle",
+      "is_active": true
+    }
+  }
+]
