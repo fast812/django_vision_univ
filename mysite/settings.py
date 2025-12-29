@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog', #shc added
-    'pages',
+    'pages', #github commit test
     "notes",
     "aggregator",
 ]
