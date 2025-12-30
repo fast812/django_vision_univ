@@ -151,7 +151,7 @@ MIDDLEWARE = [
 "django.middleware.security.SecurityMiddleware",
 "whitenoise.middleware.WhiteNoiseMiddleware",# ✅ 추가(가능하면 위쪽에)
 # 나머지 미들웨어들...
-] + [mwfor mwin MIDDLEWAREif mwnotin [
+] + [mw for mw in MIDDLEWARE if mw not in [
 "django.middleware.security.SecurityMiddleware",
 "whitenoise.middleware.WhiteNoiseMiddleware",
 ]]
